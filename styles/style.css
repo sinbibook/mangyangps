@@ -312,6 +312,46 @@
   color: #fff;
 }
 
+/* ── 메뉴 줄이 로고 길이에 밀려 내려가지 않게 (템플릿 확장) ──────────
+   원본은 로고 박스가 이미지라 폭이 일정했고, 메뉴 줄 폭을 `calc(100% - 243.9px)` 로
+   고정해 그 옆에 붙였다. 템플릿은 로고 자리에 숙소명 텍스트가 들어가 길이가 제각각이라,
+   이름이 길면 로고 + 메뉴 폭 합이 화면을 넘어 **메뉴 줄 전체가 아래로 떨어진다**
+   (예: "제주 장수곶 오션뷰 바닷가 커플 가족 펜션" → 로고 325px).
+   flex 로 바꿔 로고는 글 길이만큼, 메뉴는 남는 폭을 쓰게 한다. 메뉴 6개는 600px 남짓이라
+   보통 길이의 숙소명이면 1024px 화면에서도 한 줄에 든다.
+   오른쪽 닫기 버튼(absolute, right:30px)과 겹치지 않게 그 자리를 비운다.
+   숙소명이 지나치게 긴 경우는 빌더의 숙소명(홈페이지 노출용)을 짧게 바꿔 대응한다. */
+.header .hd_lnb {
+  display: flex;
+  align-items: stretch;
+  padding-right: 100px;
+  box-sizing: border-box;
+}
+.header .hd_lnb:after {
+  display: none;
+}
+.header .hd_lnb .txt_logo {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+}
+.header .hd_lnb .txt_logo a {
+  height: auto;
+  white-space: nowrap;
+}
+.header .hd_lnb ul {
+  flex: 1 1 auto;
+  width: auto;
+  min-width: 0;
+  white-space: nowrap;
+}
+/* 1280px 이하는 메뉴 좌우 여백을 줄여(1.5em → 1em, 6개 합 약 84px) 긴 숙소명에도 한 줄 여유를 둔다 */
+@media only screen and (max-width: 1280px) {
+  .header .hd_lnb ul .depth1 .depth1_a {
+    padding: 0 1em;
+  }
+}
+
 @media only screen and (max-width: 1023px) {
   .header {
     position: absolute;
